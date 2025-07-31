@@ -1,6 +1,9 @@
-@GetChildren_HostAddress = http://localhost:5222
+@GetChildren_HostAddress = http://localhost:5297
+@Docker_HostAddress = http://localhost:4000
 
-GET {{GetChildren_HostAddress}}/weatherforecast/
+GET {{GetChildren_HostAddress}}/Children/
 Accept: application/json
 
 ###
+GET {{Docker_HostAddress}}/Children/
+Accept: application/json

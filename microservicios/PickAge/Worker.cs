@@ -11,8 +11,8 @@ namespace PickAge
 
         public Worker(IConfiguration configuration)
         {
-            _connectionString = configuration["ServiceBus:ConnectionString"] ?? Environment.GetEnvironmentVariable("SERVICEBUS_CONNECTION_STRING");
-            _queueName = configuration["ServiceBus:QueueName"] ?? Environment.GetEnvironmentVariable("SERVICE_BUS_QUEUE_NAME");
+            _connectionString = configuration["ServiceBus:ConnectionString"] ?? "";
+            _queueName = configuration["ServiceBus:QueueName"] ?? "";
             _client = new ServiceBusClient(_connectionString);
             _processor = _client.CreateProcessor(_queueName, new ServiceBusProcessorOptions());
         }
@@ -30,8 +30,8 @@ namespace PickAge
         private async Task MessageHandler(ProcessMessageEventArgs args)
         {
             string body = args.Message.Body.ToString();
-            await CreateAndSendTopic(body);
-            Console.WriteLine($"Mensaje recibido: {body}");
+            CreateAndSendTopic(body).Wait();
+            Console.WriteLine($"Received message: {body}");
 
             await args.CompleteMessageAsync(args.Message);
         }
@@ -53,7 +53,7 @@ namespace PickAge
         {
             var parts = body.Split(", ");
             var birthyearPart = parts.FirstOrDefault(p => p.StartsWith("Birthyear:"));
-            int birthyear = Int32.Parse(birthyearPart.Split(": ")[1].Trim('"'));
+            int birthyear = Int32.Parse(birthyearPart!.Split(": ")[1].Trim('"'));
             int currentYear = DateTime.Now.Year;
 
             if (birthyear < currentYear - 18)
@@ -75,5 +75,5 @@ namespace PickAge
                 await topicClient.SendMessageAsync(message);
             }
         }
-    }    
+    }
 }

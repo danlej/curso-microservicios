@@ -89,8 +89,8 @@ namespace AddChild
         public Worker(IConfiguration configuration, IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
-            _connectionString = configuration["ServiceBus:ConnectionString"];
-            _topicName = configuration["ServiceBus:TopicName"];
+            _connectionString = configuration["ServiceBus:ConnectionString"] ?? "";
+            _topicName = configuration["ServiceBus:TopicName"] ?? "";
             _subscriptionName = "S1";
             _client = new ServiceBusClient(_connectionString);
 
@@ -133,18 +133,18 @@ namespace AddChild
             using (var scope = _serviceProvider.CreateScope())
             {
                 var dbContext = scope.ServiceProvider.GetRequiredService<DataContext>();
-                
+
                 var firstPart = body.Split('"');
                 var parts = firstPart[1].Split(", ");
                 var child = new Child
                 {
                     Name = parts.FirstOrDefault(p => p.StartsWith("Name:"))?.Split(": ")[1].Trim('"'),
-                    Lastname = parts.FirstOrDefault(p => p.StartsWith("Lastname:"))?.Split(": ")[1].Trim('"'),
+                    LastName = parts.FirstOrDefault(p => p.StartsWith("LastName:"))?.Split(": ")[1].Trim('"'),
                     BirthYear = int.Parse(parts.FirstOrDefault(p => p.StartsWith("Birthyear:"))?.Split(": ")[1].Trim('"')),
-                    ImageUrl = string.Format("{0}{1}.jpg", (parts.FirstOrDefault(p => p.StartsWith("Name:"))?.Split(": ")[1].Trim('"')).ToLower(), (parts.FirstOrDefault(p => p.StartsWith("Lastname:"))?.Split(": ")[1].Trim('"')).ToLower())
+                    ImageUrl = string.Format("{0}{1}.jpg", (parts.FirstOrDefault(p => p.StartsWith("Name:"))?.Split(": ")[1].Trim('"')).ToLower(), (parts.FirstOrDefault(p => p.StartsWith("LastName:"))?.Split(": ")[1].Trim('"')).ToLower())
                 };
-               
-                Console.WriteLine($"Sending Adult to database: {child.Name} {child.Lastname} {child.BirthYear} {child.ImageUrl}");
+
+                Console.WriteLine($"Sending Adult to database: {child.Name} {child.LastName} {child.BirthYear} {child.ImageUrl}");
                 dbContext.Children.Add(child);
                 await dbContext.SaveChangesAsync();
             }
@@ -178,10 +178,10 @@ namespace AddChild.Models
     public class Child
     {
         public int Id { get; set; }
-        public string Name { get; set; }
-        public string Lastname { get; set; }
-        public int BirthYear { get; set; }
-        public string ImageUrl { get; set; }
+        public string? Name { get; set; }
+        public string? LastName { get; set; }
+        public int? BirthYear { get; set; }
+        public string? ImageUrl { get; set; }
     }
 }
 ```

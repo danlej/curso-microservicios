@@ -95,7 +95,7 @@ app.MapPost("/addmember", (string name, string lastname, string birthyear) =>
 {
     var connectionString = builder.Configuration["ServiceBus:ConnectionString"];
     var queueName = builder.Configuration["ServiceBus:QueueName"];
-    var serviceBus = new ServiceBus(connectionString, queueName);
+    var serviceBus = new ServiceBus(connectionString!, queueName!);
     serviceBus.SendMessageAsync(name, lastname, birthyear).GetAwaiter().GetResult();
     return Results.Ok($"Miembro {name} agregado con éxito.");
 })
@@ -114,4 +114,3 @@ POST {{AddMember_HostAddress}}/addmember?name=Miranda&lastname=Espinoza&birthyea
 Content-Type: application/json
 Accept: application/json
 ```
-

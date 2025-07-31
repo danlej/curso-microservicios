@@ -20,7 +20,7 @@ namespace AddMember.Data
             var client = new ServiceBusClient(_connectionString);
             var sender = client.CreateSender(_queueName);
 
-            var messageBody = ($"Name: {name}, Lastname: {lastname}, Birthyear: {birthyear}");
+            var messageBody = ($"Name: {name}, LastName: {lastname}, Birthyear: {birthyear}");
             var jsonMessage = JsonSerializer.Serialize(messageBody);
             var serviceBusMessage = new ServiceBusMessage(Encoding.UTF8.GetBytes(jsonMessage));
 

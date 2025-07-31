@@ -1,6 +1,6 @@
 # Documentación para GetAddults
 
-Agrega los siguientes paquetes de Nuget en tu proyecto **AddAdult** y después ejecútalo.
+Agrega los siguientes paquetes de Nuget en tu proyecto **GetAdults** y después ejecútalo.
 
 ```bash
 dotnet add package Microsoft.EntityFrameworkCore
@@ -39,6 +39,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
 builder.Services.AddDbContext<DataContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
@@ -46,8 +47,12 @@ builder.Services.AddDbContext<DataContext>(options =>
 
 var app = builder.Build();
 
-app.UseSwagger();
-app.UseSwaggerUI();
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+
 app.UseHttpsRedirection();
 
 async Task<List<Adult>> GetAdults(DataContext context) => await context.Adults.ToListAsync();

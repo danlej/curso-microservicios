@@ -1,6 +1,6 @@
-namespace AddAdult.Models
+namespace GetChildren.Models
 {
-    public class Adult
+    public class Child
     {
         public int Id { get; set; }
         public string? Name { get; set; }

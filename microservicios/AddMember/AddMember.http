@@ -1,10 +1,22 @@
-@AddMember_HostAddress = https://addmember.victoriousdesert-42c091c9.eastus2.azurecontainerapps.io/
+@AddMember_HostAddress = http://localhost:5210
+@Docker_HostAddress = http://localhost:8080
+
 ### Request for children
-POST {{AddMember_HostAddress}}/addmember?name=Alejandra&lastname=Espinoza&birthyear=2020
+POST {{AddMember_HostAddress}}/addmember?name=Magaly&lastname=Petra&birthyear=2015
 Content-Type: application/json
 Accept: application/json
 
-### Reques for adults
-POST {{AddMember_HostAddress}}/addmember?name=Pepe&lastname=Rodelo&birthyear=1999
+###
+POST {{Docker_HostAddress}}/addmember?name=Magaly&lastname=Petra&birthyear=2015
+Content-Type: application/json
+Accept: application/json
+
+### Request for adults
+POST {{AddMember_HostAddress}}/addmember?name=Roberto&lastname=Martinez&birthyear=1979
+Content-Type: application/json
+Accept: application/json
+
+###
+POST {{Docker_HostAddress}}/addmember?name=Roberto&lastname=Martinez&birthyear=1979
 Content-Type: application/json
 Accept: application/json

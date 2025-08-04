@@ -11,5 +11,9 @@ RUN dotnet publish -c release -o /app
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /app
 COPY --from=build /app .
+
+# Crear un archivo appsettings.json vacío
+RUN echo '{}' > /app/appsettings.json
+
 ENTRYPOINT ["dotnet", "AddAdult.dll"]
 

@@ -10,7 +10,11 @@ IServiceCollection serviceDescriptors = new ServiceCollection();
 Host.CreateDefaultBuilder(args)
    .ConfigureAppConfiguration(configHost =>
    {
-       configHost.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+       // Configure just the environment variables to use with container apps.
+       config.AddEnvironmentVariables();
+
+       //    // Use with docker compose up --build 
+       //    configHost.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
    })
    .ConfigureServices((hostContext, services) =>
    {

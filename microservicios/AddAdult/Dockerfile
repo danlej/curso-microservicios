@@ -12,8 +12,11 @@ FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /app
 COPY --from=build /app .
 
-# Crear un archivo appsettings.json vacío
-RUN echo '{}' > /app/appsettings.json
+# Crear un archivo appsettings.json vacío con permisos explícitos
+RUN touch /app/appsettings.json && \
+    echo '{}' > /app/appsettings.json && \
+    chmod 644 /app/appsettings.json && \
+    ls -la /app/appsettings.json
 
 ENTRYPOINT ["dotnet", "AddAdult.dll"]
 

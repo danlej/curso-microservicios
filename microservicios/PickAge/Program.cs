@@ -19,8 +19,6 @@ hostBuilder.ConfigureServices((hostContext, services) =>
     IConfiguration configuration = hostContext.Configuration;
     services.AddOptions();
     services.AddHostedService<Worker>();
-    services.AddDbContext<DataContext>(options =>
-        options.UseSqlServer(connectionString));
 });
 
 // Ejecutar la aplicación

@@ -13,10 +13,10 @@ WORKDIR /app
 COPY --from=build /app .
 
 # Crear un archivo appsettings.json vacío con permisos explícitos
-RUN touch /app/appsettings.json && \
-    echo '{}' > /app/appsettings.json && \
-    chmod 644 /app/appsettings.json && \
-    ls -la /app/appsettings.json
+RUN touch /app/appsettings.json
+RUN echo '{}' > /app/appsettings.json
+RUN chmod 644 /app/appsettings.json
+RUN ls -la /app/appsettings.json
 
 ENTRYPOINT ["dotnet", "AddAdult.dll"]
 

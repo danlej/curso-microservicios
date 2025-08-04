@@ -5,25 +5,23 @@ using Microsoft.EntityFrameworkCore;
 using AddAdult;
 using AddAdult.Data;
 
-IServiceCollection serviceDescriptors = new ServiceCollection();
+// Crear host manualmente sin usar CreateDefaultBuilder
+var hostBuilder = new HostBuilder();
 
-Host.CreateDefaultBuilder(args)
-   .ConfigureAppConfiguration(configHost =>
-   {
-       // Configure just the environment variables to use with container apps.
-       configHost.AddEnvironmentVariables();
+// Configurar solo variables de entorno
+hostBuilder.ConfigureAppConfiguration((hostContext, config) => {
+    config.AddEnvironmentVariables();
+});
 
-       //    // Use with docker compose up --build 
-       //    configHost.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
-   })
-   .ConfigureServices((hostContext, services) =>
-   {
-       IConfiguration configuration = hostContext.Configuration;
-       var connectionString = configuration.GetConnectionString("DefaultConnection")
-                              ?? Environment.GetEnvironmentVariable("SQL_CONNECTION_STRING");
+// Configurar servicios
+hostBuilder.ConfigureServices((hostContext, services) => {
+    var connectionString = Environment.GetEnvironmentVariable("SQL_CONNECTION_STRING");
+    
+    services.AddOptions();
+    services.AddHostedService<Worker>();
+    services.AddDbContext<DataContext>(options =>
+        options.UseSqlServer(connectionString));
+});
 
-       services.AddOptions();
-       services.AddHostedService<Worker>();
-       services.AddDbContext<DataContext>(options =>
-           options.UseSqlServer(connectionString));
-   }).Build().Run();
+// Ejecutar la aplicación
+hostBuilder.Build().Run();

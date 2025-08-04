@@ -7,7 +7,7 @@ on:
 env:
   SERVICE_NAME: addadult
   RESOURCE_GROUP: rg-microservicios
-  IMAGE_BASE_NAME: mrdanlej/addadult:latest
+  IMAGE_BASE_NAME: mrdanlej/addadult:v1.0.1 # Cambia la versión
   ENVIRONMENT_NAME: env-microservicios
 
 jobs:
@@ -45,7 +45,11 @@ jobs:
           docker push $IMAGE_BASE_NAME
       - name: Deploy Container App
         run: |
-          az containerapp up --name $SERVICE_NAME --image $IMAGE_BASE_NAME \
+          az containerapp update --name $SERVICE_NAME --image $IMAGE_BASE_NAME \
           --resource-group $RESOURCE_GROUP --environment $ENVIRONMENT_NAME  \
           --env-vars SERVICEBUS_CONNECTION_STRING="${{secrets.SERVICE_BUS_CONNECTION_STRING}}" SERVICE_BUS_TOPIC_NAME="adultstopic" \
           SQL_CONNECTION_STRING="${{secrets.SQL_CONNECTION_STRING}}"
+      - name: Check current code
+        run: |
+          cat Program.cs
+          echo "Current code version shown above"

@@ -2,12 +2,12 @@ name: AddChild deployment
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
 
 env:
   SERVICE_NAME: addchild
   RESOURCE_GROUP: rg-microservicios
-  IMAGE_BASE_NAME: mrdanlej/addchild:latest
+  IMAGE_BASE_NAME: mrdanlej/addchild:v1.0.1 # Cambia la versión
   ENVIRONMENT_NAME: env-microservicios
 
 jobs:
@@ -23,15 +23,15 @@ jobs:
       - name: Azure Login
         uses: Azure/login@v1.4.6
         with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }} 
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
       - name: Install az containerapp extension
         run: |
           az config set extension.use_dynamic_install=yes_without_prompt
 
       - name: Build Docker NET image
-        run: | 
+        run: |
           docker build --platform linux -t $IMAGE_BASE_NAME .
-  
+
       - name: Login to Docker Hub
         uses: docker/login-action@v2
         with:

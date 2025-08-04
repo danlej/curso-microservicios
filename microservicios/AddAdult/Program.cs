@@ -11,7 +11,7 @@ Host.CreateDefaultBuilder(args)
    .ConfigureAppConfiguration(configHost =>
    {
        // Configure just the environment variables to use with container apps.
-       config.AddEnvironmentVariables();
+       configHost.AddEnvironmentVariables();
 
        //    // Use with docker compose up --build 
        //    configHost.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);

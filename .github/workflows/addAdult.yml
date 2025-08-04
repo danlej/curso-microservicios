@@ -7,7 +7,7 @@ on:
 env:
   SERVICE_NAME: addadult
   RESOURCE_GROUP: rg-microservicios
-  IMAGE_BASE_NAME: mrdanlej/addadult:v1.0.1 # Cambia la versión
+  IMAGE_BASE_NAME: mrdanlej/addadult:v1.0.2 # Cambia la versión
   ENVIRONMENT_NAME: env-microservicios
 
 jobs:

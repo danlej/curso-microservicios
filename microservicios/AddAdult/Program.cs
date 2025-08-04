@@ -9,14 +9,19 @@ using AddAdult.Data;
 var hostBuilder = new HostBuilder();
 
 // Configurar solo variables de entorno
-hostBuilder.ConfigureAppConfiguration((hostContext, config) => {
+hostBuilder.ConfigureAppConfiguration((hostContext, config) =>
+{
+    config.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
     config.AddEnvironmentVariables();
 });
 
 // Configurar servicios
-hostBuilder.ConfigureServices((hostContext, services) => {
-    var connectionString = Environment.GetEnvironmentVariable("SQL_CONNECTION_STRING");
-    
+hostBuilder.ConfigureServices((hostContext, services) =>
+{
+    IConfiguration configuration = hostContext.Configuration;
+    var connectionString = configuration.GetConnectionString("DefaultConnection")
+                           ?? Environment.GetEnvironmentVariable("SQL_CONNECTION_STRING");
+
     services.AddOptions();
     services.AddHostedService<Worker>();
     services.AddDbContext<DataContext>(options =>

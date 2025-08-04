@@ -3,16 +3,25 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using PickAge;
 
-IServiceCollection serviceDescriptors = new ServiceCollection();
+// Crear host manualmente sin usar CreateDefaultBuilder
+var hostBuilder = new HostBuilder();
 
-Host.CreateDefaultBuilder(args)
-   .ConfigureHostConfiguration(configHost =>
-   {
-       configHost.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
-   })
-   .ConfigureServices((hostContext, services) =>
-   {
-       IConfiguration configuration = hostContext.Configuration;
-       services.AddOptions();
-       services.AddHostedService<Worker>();
-   }).Build().Run();
+// Configurar solo variables de entorno
+hostBuilder.ConfigureAppConfiguration((hostContext, config) =>
+{
+    config.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+    config.AddEnvironmentVariables();
+});
+
+// Configurar servicios
+hostBuilder.ConfigureServices((hostContext, services) =>
+{
+    IConfiguration configuration = hostContext.Configuration;
+    services.AddOptions();
+    services.AddHostedService<Worker>();
+    services.AddDbContext<DataContext>(options =>
+        options.UseSqlServer(connectionString));
+});
+
+// Ejecutar la aplicación
+hostBuilder.Build().Run();

@@ -7,7 +7,7 @@ on:
 env:
   SERVICE_NAME: addchild
   RESOURCE_GROUP: rg-microservicios
-  IMAGE_BASE_NAME: mrdanlej/addchild:v1.0.2 # Cambia la versión
+  IMAGE_BASE_NAME: mrdanlej/addchild:v1.0.3 # Cambia la versión
   ENVIRONMENT_NAME: env-microservicios
 
 jobs:

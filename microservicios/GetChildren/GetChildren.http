@@ -1,4 +1,4 @@
-@GetChildren_HostAddress = http://localhost:5297
+@GetChildren_HostAddress = https://getadults.graysand-d4eec930.eastus2.azurecontainerapps.io
 @Docker_HostAddress = http://localhost:4000
 
 GET {{GetChildren_HostAddress}}/Children/

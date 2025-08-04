@@ -8,7 +8,7 @@ using AddAdult.Data;
 IServiceCollection serviceDescriptors = new ServiceCollection();
 
 Host.CreateDefaultBuilder(args)
-   .ConfigureHostConfiguration(configHost =>
+   .ConfigureAppConfiguration(configHost =>
    {
        configHost.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
    })

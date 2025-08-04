@@ -2,8 +2,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
-using AddAdult;
-using AddAdult.Data;
+using AddChild;
+using AddChild.Data;
 
 // Crear host manualmente sin usar CreateDefaultBuilder
 var hostBuilder = new HostBuilder();

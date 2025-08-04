@@ -18,7 +18,7 @@ hostBuilder.ConfigureAppConfiguration((hostContext, config) =>
 // Configurar servicios
 hostBuilder.ConfigureServices((hostContext, services) =>
 {
-    var connectionString = hostContext.GetConnectionString("DefaultConnection")
+    var connectionString = hostContext.Configuration.GetConnectionString("DefaultConnection")
                            ?? Environment.GetEnvironmentVariable("SQL_CONNECTION_STRING");
 
     services.AddOptions();

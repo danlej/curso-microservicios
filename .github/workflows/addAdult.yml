@@ -46,7 +46,7 @@ jobs:
       - name: Deploy Container App
         run: |
           az containerapp update --name $SERVICE_NAME --image $IMAGE_BASE_NAME \
-          --resource-group $RESOURCE_GROUP --environment $ENVIRONMENT_NAME  \
+          --resource-group $RESOURCE_GROUP \
           --env-vars SERVICEBUS_CONNECTION_STRING="${{secrets.SERVICE_BUS_CONNECTION_STRING}}" SERVICE_BUS_TOPIC_NAME="adultstopic" \
           SQL_CONNECTION_STRING="${{secrets.SQL_CONNECTION_STRING}}"
       - name: Check current code
